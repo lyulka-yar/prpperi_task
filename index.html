@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="main.css" />
+    <title>Task</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <h1>Test</h1>
+        <div class="input-block">
+          <form name="formPair" id="formPair" class="input-block__input">
+            <label for="input-value" class="input-block__subtitle">
+              Name/Value Pair
+            </label>
+            <input id="input-value" placeholder="example: key=value" name="input-value" type="text" />
+          </form>
+          <button form="formPair" id="add" type="submit" class="btn add" value="add">add</button>
+        </div>
+        <div class="manage-block">
+          <div id="output" class="manage-block__output">
+            <span class="manage-block__subtitle">Name/Value Pair List </span>
+
+          </div>
+          <div class="manage-block__buttons">
+            <button class="btn name" id="byName">Sort by Name</button>
+            <button class="btn val" id="byVal">Sort by Value</button>
+            <button class="btn del" id="del">Delete</button>
+            <button class="btn show" id="show">Show XML</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
