@@ -52,10 +52,6 @@ button {
         position: absolute;
         bottom: 1rem;
         transform: translateX(-50%);
-        &:hover {
-          background-color: #f6323a;
-          color: #eae5e5;
-        }
       }
 
       & div {
@@ -78,21 +74,41 @@ button {
   border-radius: 5px;
   box-shadow: 25px 25px 75px rgba(0, 0, 0, .15),
   10px 10px 70px rgba(0, 0, 0, .15);
-  color: #fff;
+  color: #3f3c3c;
   cursor: pointer;
   transition: background-color ease-in-out .3s;
-}
-.btn.add {
-  background-color: #bebebe;
-  &:enabled:hover {
-  background-color: #77e74b;
+
+  &.close {
+    color: #eae5e5;
+    background-color: #9f7f7f;
+    font-size: 16px;
+
+    &:hover {
+      background-color: #f6323a;
+    }
   }
 }
+
+
+.btn.add {
+  background-color: #bebebe;
+
+  &:enabled:hover {
+    background-color: #77e74b;
+  }
+}
+
 .btn:not(button.add) {
   background-color: #cb9049;
+
   &:hover {
     background-color: #ffbe31;
-    box-shadow: 0 0 5px #333,0 0 5px #333;
+    box-shadow: 0 0 5px #333, 0 0 5px #333;
+  }
+
+  &.del:hover {
+    background-color: #f6323a;
+    color: #eae5e5;
   }
 }
 
@@ -184,6 +200,9 @@ button {
 /*MEDIA*/
 
 @media screen and (max-width: 1140px) {
+  button::selection {
+    background-color: red;
+  }
   .manage-block {
     &__output {
       height: 200px;
