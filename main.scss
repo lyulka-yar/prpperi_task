@@ -77,9 +77,23 @@ button {
   border: none;
   border-radius: 5px;
   box-shadow: 25px 25px 75px rgba(0, 0, 0, .15),
-  10px 10px 70px rgba(0, 0, 0, .15),
-  inset -5px -5px 15px rgba(0, 0, 0, .2),
-  inset 5px 5px 15px rgba(0, 0, 0, .2);
+  10px 10px 70px rgba(0, 0, 0, .15);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color ease-in-out .3s;
+}
+.btn.add {
+  background-color: #bebebe;
+  &:enabled:hover {
+  background-color: #77e74b;
+  }
+}
+.btn:not(button.add) {
+  background-color: #cb9049;
+  &:hover {
+    background-color: #ffbe31;
+    box-shadow: 0 0 5px #333,0 0 5px #333;
+  }
 }
 
 .wrapper {
@@ -100,9 +114,6 @@ button {
   display: flex;
   align-items: center;
   position: relative;
-  & button {
-    background-color: #bcf3a6;
-  }
 
   &__subtitle {
     position: absolute;
