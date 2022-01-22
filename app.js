@@ -70,7 +70,7 @@ const sorting = (data, ev) => {
             let prev = a.innerText.slice(0, a.innerText.indexOf("="));
             let next = b.innerText.slice(0, b.innerText.indexOf("="));
 
-            return prev > next;
+            return prev > next ? 1 : -1;
         });
 
         for (let i = 0; i < arr.length; i++) {
@@ -97,7 +97,7 @@ const sorting = (data, ev) => {
         let prev = a.innerText.slice(a.innerText.indexOf("=") + 1);
         let next = b.innerText.slice(b.innerText.indexOf("=") + 1);
 
-        return prev > next;
+        return prev > next ? 1 : -1;
     });
 
     for (let i = 0; i < arr.length; i++) {
