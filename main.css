@@ -20,11 +20,54 @@ button {
   background-color: #e5d8c3;
   height: 100vh;
 }
+.container > .modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  padding-top: 5rem;
+  text-align: center;
+}
+.container > .modal > .modal-body {
+  position: relative;
+  padding: 2rem;
+  width: 400px;
+  height: 400px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 25px 25px 75px rgba(0, 0, 0, 0.25), 10px 10px 70px rgba(0, 0, 0, 0.25), inset -5px -5px 15px rgba(0, 0, 0, 0.5), inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+  flex-direction: column;
+  justify-content: space-around;
+}
+.container > .modal > .modal-body button {
+  padding: 0.2rem 1rem;
+  position: absolute;
+  bottom: 1rem;
+  transform: translateX(-50%);
+}
+.container > .modal > .modal-body button:hover {
+  background-color: #f6323a;
+  color: #eae5e5;
+}
+.container > .modal > .modal-body div {
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: justify;
+}
 
-.btn {
+.btn, .close {
   width: fit-content;
   padding: 0.2rem 0.5rem;
   margin: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 25px 25px 75px rgba(0, 0, 0, 0.15), 10px 10px 70px rgba(0, 0, 0, 0.15), inset -5px -5px 15px rgba(0, 0, 0, 0.2), inset 5px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .wrapper {
@@ -32,6 +75,8 @@ button {
   min-width: 40vw;
   padding: 2rem;
   margin: 0 auto;
+  box-shadow: 25px 25px 75px rgba(0, 0, 0, 0.35), 10px 10px 70px rgba(0, 0, 0, 0.35), inset -5px -5px 15px rgba(0, 0, 0, 0.6), inset 5px 5px 15px rgba(0, 0, 0, 0.6);
+  border-radius: 0.5rem;
 }
 
 .input-block {
@@ -39,6 +84,9 @@ button {
   display: flex;
   align-items: center;
   position: relative;
+}
+.input-block button {
+  background-color: #bcf3a6;
 }
 .input-block__subtitle {
   position: absolute;
@@ -76,6 +124,18 @@ button {
   overflow-x: hidden;
   overflow-y: auto;
 }
+.manage-block__output div {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem;
+}
+.manage-block__output div p {
+  padding-right: 0.2rem;
+}
+.manage-block__output div:hover {
+  box-shadow: 0 0 2px #bebebe, 0 0 2px #bebebe;
+  background-color: #eae5e5;
+}
 .manage-block__buttons {
   display: flex;
   flex-direction: column;
@@ -99,9 +159,28 @@ button {
   }
 }
 @media screen and (max-width: 500px) {
+  .container > .modal {
+    padding: 1rem;
+  }
+  .container .input-block__subtitle {
+    top: -16px;
+  }
+  .container .input-block button {
+    margin-left: 10px;
+    padding: 2px 15px;
+  }
+  .container button {
+    margin: 4px 2px;
+    padding: 2px 2px;
+    font-size: 10px;
+  }
+
   .wrapper {
     width: 70vw;
     padding: 3rem;
+  }
+  .wrapper #input-value {
+    font-size: 0.66rem;
   }
 
   .manage-block__output {

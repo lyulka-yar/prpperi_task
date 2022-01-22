@@ -19,20 +19,80 @@ button {
   padding: 2rem 1rem;
   background-color: #e5d8c3;
   height: 100vh;
+
+
+  & > .modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .8);
+    display: flex;
+    justify-content: center;
+    padding-top: 5rem;
+    text-align: center;
+
+    & > .modal-body {
+      position: relative;
+      padding: 2rem;
+      width: 400px;
+      height: 400px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 25px 25px 75px rgba(0, 0, 0, .25),
+      10px 10px 70px rgba(0, 0, 0, .25),
+      inset -5px -5px 15px rgba(0, 0, 0, .5),
+      inset 5px 5px 15px rgba(0, 0, 0, .5);
+      flex-direction: column;
+      justify-content: space-around;
+
+      & button {
+        padding: 0.2rem 1rem;
+        position: absolute;
+        bottom: 1rem;
+        transform: translateX(-50%);
+        &:hover {
+          background-color: #f6323a;
+          color: #eae5e5;
+        }
+      }
+
+      & div {
+        height: 90%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: justify;
+      }
+    }
+  }
 }
 
-.btn {
+
+.btn, .close {
   width: fit-content;
   padding: 0.2rem 0.5rem;
   margin: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 25px 25px 75px rgba(0, 0, 0, .15),
+  10px 10px 70px rgba(0, 0, 0, .15),
+  inset -5px -5px 15px rgba(0, 0, 0, .2),
+  inset 5px 5px 15px rgba(0, 0, 0, .2);
 }
-
 
 .wrapper {
   background-color: #fff;
   min-width: 40vw;
   padding: 2rem;
   margin: 0 auto;
+  box-shadow: 25px 25px 75px rgba(0, 0, 0, .35),
+  10px 10px 70px rgba(0, 0, 0, .35),
+  inset -5px -5px 15px rgba(0, 0, 0, .6),
+  inset 5px 5px 15px rgba(0, 0, 0, .6);
+
+  border-radius: .5rem;
 }
 
 .input-block {
@@ -40,6 +100,9 @@ button {
   display: flex;
   align-items: center;
   position: relative;
+  & button {
+    background-color: #bcf3a6;
+  }
 
   &__subtitle {
     position: absolute;
@@ -55,6 +118,7 @@ button {
     width: 100%;
     padding: 0.25rem;
     outline: none;
+
     &:focus {
       border-color: #7FB800;
     }
@@ -82,6 +146,21 @@ button {
     overflow: scroll;
     overflow-x: hidden;
     overflow-y: auto;
+
+    & div {
+      display: flex;
+      justify-content: space-between;
+      padding: .3rem;
+    }
+
+    & div p {
+      padding-right: 0.2rem;
+    }
+
+    & div:hover {
+      box-shadow: 0 0 2px #bebebe, 0 0 2px #bebebe;
+      background-color: #eae5e5;
+    }
   }
 
   &__buttons {
@@ -114,9 +193,36 @@ button {
 }
 
 @media screen and (max-width: 500px) {
+  .container {
+    & > .modal {
+      padding: 1rem;
+    }
+
+    .input-block {
+      &__subtitle {
+        top: -16px;
+      }
+
+      & button {
+        margin-left: 10px;
+        padding: 2px 15px;
+      }
+    }
+
+    button {
+      margin: 4px 2px;
+      padding: 2px 2px;
+      font-size: 10px;
+    }
+  }
   .wrapper {
     width: 70vw;
     padding: 3rem;
+
+    #input-value {
+      font-size: 0.66rem;
+    }
+
   }
   .manage-block {
     &__output {

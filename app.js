@@ -1,10 +1,12 @@
 const form = document.forms.formPair[0];
-let outputField = document.querySelector(".manage-block__output");
-let add = document.getElementById("add");
-let del = document.getElementById("del");
-let sortNameBtn = document.getElementById("byName");
-let sortValueBtn = document.getElementById("byVal");
-let itemsOfOutput = document.getElementsByClassName("manage-block__output-item");
+const outputField = document.querySelector(".manage-block__output");
+const add = document.getElementById("add");
+const del = document.getElementById("del");
+const showXml = document.getElementById("show");
+const sortNameBtn = document.getElementById("byName");
+const sortValueBtn = document.getElementById("byVal");
+const itemsOfOutput = document.getElementsByClassName("manage-block__output-item");
+const items = document.getElementsByClassName("manage-block-item");
 
 
 let regexp = /[^0-9a-zA-Zа-яА-Яа-яґєіїА-ЯҐЄІЇ=]/gi; //regex EN\UA\RU all symbols except "="
@@ -13,15 +15,22 @@ let clearStr = "";
 add.addEventListener("click", (e) => {
 
     let p = document.createElement("p");
+    let div = document.createElement("div");
+    let checkbox = document.createElement("input");
+
+    checkbox.setAttribute("type", "checkbox");
+
     e.preventDefault();
     form.value = null;
 
     form.style.border = "1px solid #bebebe";
-    p.classList.add("manage-block__output-item");
+    div.classList.add("manage-block__output-item");
+    p.classList.add("manage-block-item");
     add.setAttribute("disabled", "true");
 
     p.innerText = `${clearStr.toUpperCase()}`;
-    outputField.appendChild(p);
+    div.append(p, checkbox)
+    outputField.appendChild(div);
 });
 
 form.addEventListener("input", (e) => {
@@ -36,7 +45,7 @@ form.addEventListener("input", (e) => {
         form.style.border = "1px solid #7FB800";
 
     } else {
-
+        add.style.backgroundColor = "none";
         add.setAttribute("disabled", "true");
         form.style.border = "1px solid red";
 
@@ -48,12 +57,11 @@ const sorting = (data, ev) => {
     let arr = [...data];
     let status = arr.length < 2;
 
-
     if (status) {
         return;
     }
 
-    deleting(itemsOfOutput);
+    clear(itemsOfOutput);
 
     if (ev.target.id === "byName") {
 
@@ -66,12 +74,20 @@ const sorting = (data, ev) => {
         });
 
         for (let i = 0; i < arr.length; i++) {
+
             let p = document.createElement("p");
+            let div = document.createElement("div");
+            let checkbox = document.createElement("input");
+
+            checkbox.setAttribute("type", "checkbox");
+            checkbox.setAttribute("id", "checkbox");
 
             p.innerHTML = `${arr[i].innerText}`;
-            p.classList.add("manage-block__output-item");
+            div.classList.add("manage-block__output-item");
+            p.classList.add("manage-block-item");
 
-            outputField.appendChild(p);
+            div.append(p, checkbox);
+            outputField.appendChild(div);
         }
         return;
     }
@@ -87,29 +103,95 @@ const sorting = (data, ev) => {
     for (let i = 0; i < arr.length; i++) {
 
         let p = document.createElement("p");
+        let div = document.createElement("div");
+        let checkbox = document.createElement("input");
+
+        checkbox.setAttribute("type", "checkbox");
+        checkbox.setAttribute("id", "checkbox");
 
         p.innerHTML = `${arr[i].innerText}`;
-        p.classList.add("manage-block__output-item");
+        div.classList.add("manage-block__output-item");
+        p.classList.add("manage-block-item");
 
-        outputField.appendChild(p);
+        div.append(p, checkbox);
+        outputField.appendChild(div);
     }
 
 };
 const deleting = (elem) => {
-    while (elem[0]) {
-        elem[0].parentNode.removeChild(elem[0]);
+    for (const elemElement of elem) {
+        if (elemElement.lastChild.checked) {
+
+            elemElement.parentNode.removeChild(elemElement);
+        }
     }
 };
+const clear = (data) => {
+    while (data[0]) {
+        data[0].parentNode.removeChild(data[0]);
+    }
+}
 
 sortNameBtn.addEventListener("click", (e) => {
-    sorting(itemsOfOutput, e);
+    sorting(items, e);
 });
 
 sortValueBtn.addEventListener("click", (e) => {
-    sorting(itemsOfOutput, e);
+    sorting(items, e);
 });
 
 del.addEventListener("click", () => {
-    let data = document.getElementsByClassName("manage-block__output-item");
-    deleting(data);
+    deleting(itemsOfOutput);
 });
+
+const toXml = (data) => {
+    return `<dataStore> \n ${
+            data.reduce((result, el) => {
+                return result + `\n <value>  ${Object.keys(el)} : "${el[Object.keys(el)]}"</value>\n`;},"")
+        } \n
+    </dataStore>`
+}
+
+const showXMLModal = () => {
+    let container = document.getElementById("container");
+    let modal = document.createElement("div");
+    let modalBody = document.createElement("div");
+    let textContent = document.createElement("div");
+    let close = document.createElement("button");
+
+
+    let status = Array.from(items).length;
+    let data = [...items];
+
+
+    if (!status) {
+        return;
+    }
+
+    let xmlObj = [];
+
+    for (let i = 0; i < data.length; i++) {
+
+        let key = data[i].innerText.slice(0, data[i].innerText.indexOf("="));
+        let value = data[i].innerText.slice(data[i].innerText.indexOf("=") + 1);
+
+        xmlObj[i] = {[key]: value};
+    }
+
+    modal.classList.add("modal");
+    modalBody.classList.add("modal-body");
+    textContent.innerText = toXml(xmlObj);
+    close.innerText = "close";
+    close.classList.add("close");
+
+
+    modal.appendChild(modalBody);
+    modalBody.append(textContent, close);
+    container.appendChild(modal);
+
+    close.addEventListener("click", () => {
+        container.lastChild.remove();
+    })
+}
+
+showXml.addEventListener("click", showXMLModal);
