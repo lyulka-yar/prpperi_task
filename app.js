@@ -14,11 +14,13 @@ let clearStr = "";
 
 add.addEventListener("click", (e) => {
 
-    let p = document.createElement("p");
+    let p = document.createElement("label");
     let div = document.createElement("div");
     let checkbox = document.createElement("input");
-
+let i = 0;
     checkbox.setAttribute("type", "checkbox");
+    checkbox.setAttribute("id", `checkbox-${++i}`);
+    p.setAttribute("for", `checkbox-${i}`);
 
     e.preventDefault();
     form.value = null;
@@ -75,7 +77,8 @@ const sorting = (data, ev) => {
 
         for (let i = 0; i < arr.length; i++) {
 
-            let p = document.createElement("p");
+
+            let p = document.createElement("label");
             let div = document.createElement("div");
             let checkbox = document.createElement("input");
 
@@ -83,8 +86,9 @@ const sorting = (data, ev) => {
             checkbox.setAttribute("id", "checkbox");
 
             p.innerHTML = `${arr[i].innerText}`;
-            div.classList.add("manage-block__output-item");
             p.classList.add("manage-block-item");
+            p.setAttribute("for", `checkbox-${i}`);
+            div.classList.add("manage-block__output-item");
 
             div.append(p, checkbox);
             outputField.appendChild(div);
@@ -102,16 +106,17 @@ const sorting = (data, ev) => {
 
     for (let i = 0; i < arr.length; i++) {
 
-        let p = document.createElement("p");
+        let p = document.createElement("label");
         let div = document.createElement("div");
         let checkbox = document.createElement("input");
 
         checkbox.setAttribute("type", "checkbox");
-        checkbox.setAttribute("id", "checkbox");
+        checkbox.setAttribute("id", `checkbox-${i}`);
 
         p.innerHTML = `${arr[i].innerText}`;
-        div.classList.add("manage-block__output-item");
         p.classList.add("manage-block-item");
+        p.setAttribute("for", "checkbox");
+        div.classList.add("manage-block__output-item");
 
         div.append(p, checkbox);
         outputField.appendChild(div);
@@ -119,11 +124,11 @@ const sorting = (data, ev) => {
 
 };
 const deleting = (elem) => {
-    for (const elemElement of elem) {
-        if (elemElement.lastChild.checked) {
 
-            elemElement.parentNode.removeChild(elemElement);
-        }
+    for (const p of elem) {
+        if (p.lastChild.checked) {
+            p.parentNode.removeChild(p);
+        } // work with bug in cycle
     }
 };
 const clear = (data) => {
@@ -145,10 +150,12 @@ del.addEventListener("click", () => {
 });
 
 const toXml = (data) => {
-    return `<dataStore> \n ${
-            data.reduce((result, el) => {
-                return result + `\n <value>  ${Object.keys(el)} : "${el[Object.keys(el)]}"</value>\n`;},"")
-        } \n
+    return `
+    <?xml version="1.0" encoding="UTF-8"?>
+     <dataStore> ${
+             data.reduce((result, el) => {
+                return result + `\n <value>  ${Object.keys(el)} : "${el[Object.keys(el)]}"</value>`;},"")
+        }
     </dataStore>`
 }
 
@@ -183,6 +190,10 @@ const showXMLModal = () => {
     textContent.innerText = toXml(xmlObj);
     close.innerText = "close";
     close.classList.add("close");
+    textContent.classList.add("modal__textContent");
+    textContent.style.overflowY = "auto";
+    textContent.style.overflowX = "hidden";
+    textContent.style.paddingTop = "1rem";
 
 
     modal.appendChild(modalBody);
