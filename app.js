@@ -17,7 +17,7 @@ add.addEventListener("click", (e) => {
     let p = document.createElement("label");
     let div = document.createElement("div");
     let checkbox = document.createElement("input");
-let i = 0;
+    let i = 0;
     checkbox.setAttribute("type", "checkbox");
     checkbox.setAttribute("id", `checkbox-${++i}`);
     p.setAttribute("for", `checkbox-${i}`);
@@ -31,6 +31,7 @@ let i = 0;
     add.setAttribute("disabled", "true");
 
     p.innerText = `${clearStr.toUpperCase()}`;
+
     div.append(p, checkbox)
     outputField.appendChild(div);
 });
@@ -54,83 +55,75 @@ form.addEventListener("input", (e) => {
     }
 });
 
-const sorting = (data, ev) => {
+const sortFunc = () => {
+    return {
+        createElement: (arr) => {
+            for (let i = 0; i < arr.length; i++) {
 
-    let arr = [...data];
-    let status = arr.length < 2;
+                let p = document.createElement("label");
+                let div = document.createElement("div");
+                let checkbox = document.createElement("input");
 
-    if (status) {
-        return;
+                p.innerHTML = `${arr[i].innerText}`;
+                p.classList.add("manage-block-item");
+                div.classList.add("manage-block__output-item");
+                checkbox.setAttribute("type", "checkbox");
+
+                div.append(p, checkbox);
+                outputField.appendChild(div);
+            }
+        }
     }
+}
 
-    clear(itemsOfOutput);
 
-    if (ev.target.id === "byName") {
+    const sorting = (data, ev) => {
+
+        let arr = [...data];
+        let status = arr.length < 2;
+        const id = ev.target.id;
+
+        if (status) {
+            return;
+        }
+
+        clear(itemsOfOutput);
+
+        if (id === "byName") {
+
+            arr.sort((a, b) => {
+
+                let prev = a.innerText.slice(0, a.innerText.indexOf("="));
+                let next = b.innerText.slice(0, b.innerText.indexOf("="));
+
+                return prev > next ? 1 : -1;
+            });
+
+            sortFunc().createElement(arr);
+            return;
+        }
 
         arr.sort((a, b) => {
 
-            let prev = a.innerText.slice(0, a.innerText.indexOf("="));
-            let next = b.innerText.slice(0, b.innerText.indexOf("="));
+            let prev = a.innerText.slice(a.innerText.indexOf("=") + 1);
+            let next = b.innerText.slice(b.innerText.indexOf("=") + 1);
 
             return prev > next ? 1 : -1;
         });
 
-        for (let i = 0; i < arr.length; i++) {
-
-
-            let p = document.createElement("label");
-            let div = document.createElement("div");
-            let checkbox = document.createElement("input");
-
-            checkbox.setAttribute("type", "checkbox");
-            checkbox.setAttribute("id", "checkbox");
-
-            p.innerHTML = `${arr[i].innerText}`;
-            p.classList.add("manage-block-item");
-            p.setAttribute("for", `checkbox-${i}`);
-            div.classList.add("manage-block__output-item");
-
-            div.append(p, checkbox);
-            outputField.appendChild(div);
-        }
-        return;
-    }
-
-    arr.sort((a, b) => {
-
-        let prev = a.innerText.slice(a.innerText.indexOf("=") + 1);
-        let next = b.innerText.slice(b.innerText.indexOf("=") + 1);
-
-        return prev > next ? 1 : -1;
-    });
-
-    for (let i = 0; i < arr.length; i++) {
-
-        let p = document.createElement("label");
-        let div = document.createElement("div");
-        let checkbox = document.createElement("input");
-
-        checkbox.setAttribute("type", "checkbox");
-        checkbox.setAttribute("id", `checkbox-${i}`);
-
-        p.innerHTML = `${arr[i].innerText}`;
-        p.classList.add("manage-block-item");
-        p.setAttribute("for", "checkbox");
-        div.classList.add("manage-block__output-item");
-
-        div.append(p, checkbox);
-        outputField.appendChild(div);
-    }
-
+        sortFunc().createElement(arr);
 };
+
 const deleting = (elem) => {
+    const arr = [...elem];
 
-    for (const p of elem) {
-        if (p.lastChild.checked) {
-            p.parentNode.removeChild(p);
-        } // work with bug in cycle
-    }
+           arr.map(el => {
+               if (el.lastChild.checked) {
+                   el.remove();
+               }
+           });
 };
+
 const clear = (data) => {
     while (data[0]) {
         data[0].parentNode.removeChild(data[0]);
@@ -153,9 +146,10 @@ const toXml = (data) => {
     return `
     <?xml version="1.0" encoding="UTF-8"?>
      <dataStore> ${
-             data.reduce((result, el) => {
-                return result + `\n <value>  ${Object.keys(el)} : "${el[Object.keys(el)]}"</value>`;},"")
-        }
+        data.reduce((result, el) => {
+            return result + `\n <value>  ${Object.keys(el)} : "${el[Object.keys(el)]}"</value>`;
+        }, "")
+    }
     </dataStore>`
 }
 
